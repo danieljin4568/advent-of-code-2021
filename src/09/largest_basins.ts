@@ -44,9 +44,9 @@ export function largestBasins(input: number[][]): number {
     let basins: number[][][] = lowPoints.map(lowPoint => explore(input, lowPoint, []))
 
     // Multiply together the sizes of the 3 largest basins
-    let basinSizes: number[] = basins.map(basin => basin.length)
-    let largestBasinSizes: number[] = basinSizes.sort((a, b) => b - a)
-                                                .slice(0,3)
+    let largestBasinSizes: number[] = basins.map(basin => basin.length)
+                                            .sort((a, b) => b - a)
+                                            .slice(0,3)
     let output: number = largestBasinSizes.reduce((previous, current) => previous * current, 1)
 
     return output
