@@ -4,8 +4,8 @@ import { largestBasins } from "./largest_basins"
 
 const fileBuffer: Buffer = fs.readFileSync("input/09/input.txt")
 const data: number[][] = fileBuffer.toString()
+                                .trimEnd()
                                 .split("\n")
-                                .filter(line => line != "")
                                 .map(line => line.split("").map(char => Number(char)))
 
 console.log(sumOfRiskLevels(data))
