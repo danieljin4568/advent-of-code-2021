@@ -2,18 +2,19 @@ function explore(input: number[][], point: number[] , traveledPoints: number[][]
     traveledPoints.push(point)
     let i: number = point[0]
     let j: number = point[1]
-    if (input[i-1][j] < 9 && !(traveledPoints.some(p => p[0] == i-1 && p[1] == j))) {
-        traveledPoints = explore(input, [i-1, j], traveledPoints)
-    }
-    if (input[i][j+1] < 9 && !(traveledPoints.some(p => p[0] == i && p[1] == j+1))) {
-        traveledPoints = explore(input, [i, j+1], traveledPoints)
-    }
-    if (input[i+1][j] < 9 && !(traveledPoints.some(p => p[0] == i+1 && p[1] == j))) {
-        traveledPoints = explore(input, [i+1, j], traveledPoints)
-    }
-    if (input[i][j-1] < 9 && !(traveledPoints.some(p => p[0] == i && p[1] == j-1))) {
-        traveledPoints = explore(input, [i, j-1], traveledPoints)
-    }
+    let adjacentPoints: number[][] = [
+        [i - 1, j],
+        [i + 1, j],
+        [i, j - 1],
+        [i, j + 1]
+    ]
+    adjacentPoints.forEach(point => {
+        let i: number = point[0]
+        let j: number = point[1]
+        if (input[i][j] < 9 && !(traveledPoints.some(p => p[0] == i && p[1] == j))) {
+            traveledPoints = explore(input, point, traveledPoints)
+        }
+    })
     return traveledPoints
 }
 
