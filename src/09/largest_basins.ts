@@ -1,23 +1,3 @@
-function explore(input: number[][], point: number[], traveledPoints: number[][]): number[][] {
-    traveledPoints.push(point)
-    let i: number = point[0]
-    let j: number = point[1]
-    let adjacentPoints: number[][] = [
-        [i - 1, j],
-        [i + 1, j],
-        [i, j - 1],
-        [i, j + 1]
-    ]
-    adjacentPoints.forEach(point => {
-        let i: number = point[0]
-        let j: number = point[1]
-        if (input[i][j] < 9 && !traveledPoints.some(p => p[0] == i && p[1] == j)) {
-            traveledPoints = explore(input, point, traveledPoints)
-        }
-    })
-    return traveledPoints
-}
-
 export function largestBasins(input: number[][]): number {
     // Add padding to input
     input.forEach(row => {
@@ -56,4 +36,24 @@ export function largestBasins(input: number[][]): number {
 
 function yPadding(input: number[][]): number[] {
     return input[0].map(() => 9)
+}
+
+function explore(input: number[][], point: number[], traveledPoints: number[][]): number[][] {
+    traveledPoints.push(point)
+    let i: number = point[0]
+    let j: number = point[1]
+    let adjacentPoints: number[][] = [
+        [i - 1, j],
+        [i + 1, j],
+        [i, j - 1],
+        [i, j + 1]
+    ]
+    adjacentPoints.forEach(point => {
+        let i: number = point[0]
+        let j: number = point[1]
+        if (input[i][j] < 9 && !traveledPoints.some(p => p[0] == i && p[1] == j)) {
+            traveledPoints = explore(input, point, traveledPoints)
+        }
+    })
+    return traveledPoints
 }
