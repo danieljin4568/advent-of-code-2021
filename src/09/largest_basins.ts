@@ -1,4 +1,4 @@
-function explore(input: number[][], point: number[] , traveledPoints: number[][]): number[][] {
+function explore(input: number[][], point: number[], traveledPoints: number[][]): number[][] {
     traveledPoints.push(point)
     let i: number = point[0]
     let j: number = point[1]
@@ -11,7 +11,7 @@ function explore(input: number[][], point: number[] , traveledPoints: number[][]
     adjacentPoints.forEach(point => {
         let i: number = point[0]
         let j: number = point[1]
-        if (input[i][j] < 9 && !(traveledPoints.some(p => p[0] == i && p[1] == j))) {
+        if (input[i][j] < 9 && !traveledPoints.some(p => p[0] == i && p[1] == j)) {
             traveledPoints = explore(input, point, traveledPoints)
         }
     })
@@ -32,10 +32,12 @@ export function largestBasins(input: number[][]): number {
     let lowPoints: number[][] = []
     for (let i = 1; i < input.length - 1; i++) {
         for (let j = 1; j < input[i].length - 1; j++) {
-            if (input[i][j] < input[i-1][j] &&
-                input[i][j] < input[i+1][j] &&
-                input[i][j] < input[i][j-1] &&
-                input[i][j] < input[i][j+1]) {
+            if (
+                input[i][j] < input[i - 1][j] &&
+                input[i][j] < input[i + 1][j] &&
+                input[i][j] < input[i][j - 1] &&
+                input[i][j] < input[i][j + 1]
+            ) {
                 lowPoints.push([i, j])
             }
         }
@@ -45,8 +47,9 @@ export function largestBasins(input: number[][]): number {
     let basins: number[][][] = lowPoints.map(lowPoint => explore(input, lowPoint, []))
 
     // Multiply together the sizes of the 3 largest basins
-    return basins.map(basin => basin.length)
-                .sort((a, b) => b - a)
-                .slice(0,3)
-                .reduce((previous, current) => previous * current, 1)
+    return basins
+        .map(basin => basin.length)
+        .sort((a, b) => b - a)
+        .slice(0, 3)
+        .reduce((previous, current) => previous * current, 1)
 }
