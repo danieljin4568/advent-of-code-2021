@@ -20,13 +20,12 @@ function explore(input: number[][], point: number[], traveledPoints: number[][])
 
 export function largestBasins(input: number[][]): number {
     // Add padding to input
-    let yPadding: number[] = input[0].map(() => 9)
-    input.unshift(yPadding)
-    input.push(yPadding)
     input.forEach(row => {
         row.unshift(9)
         row.push(9)
     })
+    input.unshift(yPadding(input))
+    input.push(yPadding(input))
 
     // Find the low points
     let lowPoints: number[][] = []
@@ -53,4 +52,8 @@ export function largestBasins(input: number[][]): number {
         .sort((a, b) => b - a)
         .slice(0, 3)
         .reduce((previous, current) => previous * current, 1)
+}
+
+function yPadding(input: number[][]): number[] {
+    return input[0].map(() => 9)
 }
