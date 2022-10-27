@@ -13,13 +13,14 @@ export function sumOfRiskLevels(input: number[][]): number {
     // Find the low points and add their risk levels to the total
     for (let i = 1; i < input.length - 1; i++) {
         for (let j = 1; j < input[i].length - 1; j++) {
+            let pointOfInterest: number = input[i][j]
             if (
-                input[i][j] < input[i - 1][j] &&
-                input[i][j] < input[i + 1][j] &&
-                input[i][j] < input[i][j - 1] &&
-                input[i][j] < input[i][j + 1]
+                pointOfInterest < input[i - 1][j] &&
+                pointOfInterest < input[i + 1][j] &&
+                pointOfInterest < input[i][j - 1] &&
+                pointOfInterest < input[i][j + 1]
             ) {
-                output += input[i][j] + 1
+                output += pointOfInterest + 1
             }
         }
     }

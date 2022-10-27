@@ -32,11 +32,12 @@ export function largestBasins(input: number[][]): number {
     let lowPoints: number[][] = []
     for (let i = 1; i < input.length - 1; i++) {
         for (let j = 1; j < input[i].length - 1; j++) {
+            let pointOfInterest: number = input[i][j]
             if (
-                input[i][j] < input[i - 1][j] &&
-                input[i][j] < input[i + 1][j] &&
-                input[i][j] < input[i][j - 1] &&
-                input[i][j] < input[i][j + 1]
+                pointOfInterest < input[i - 1][j] &&
+                pointOfInterest < input[i + 1][j] &&
+                pointOfInterest < input[i][j - 1] &&
+                pointOfInterest < input[i][j + 1]
             ) {
                 lowPoints.push([i, j])
             }
