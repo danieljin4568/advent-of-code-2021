@@ -56,7 +56,7 @@ function explore(input: number[][], pointOfInterest: Point, traveledPoints: Poin
     adjacentPoints.forEach(adjacentPoint => {
         let i: number = adjacentPoint.i
         let j: number = adjacentPoint.j
-        if (input[i][j] < 9 && !traveledPoints.some(p => p.i == i && p.j == j)) {
+        if (!traveledPoints.some(p => p.i == i && p.j == j) && input[i][j] < 9) {
             traveledPoints = explore(input, adjacentPoint, traveledPoints)
         }
     })
