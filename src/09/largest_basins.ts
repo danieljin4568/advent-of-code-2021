@@ -1,35 +1,31 @@
+import { padInput } from "./pad_input"
+
 interface Point {
-    i: number,
-    j: number
+    x: number,
+    y: number
 }
 
 export function largestBasins(input: number[][]): number {
-    // Add padding to input
-    input.forEach(row => {
-        row.unshift(9)
-        row.push(9)
-    })
-    input.unshift(yPadding(input))
-    input.push(yPadding(input))
+    let paddedInput: number[][] = padInput(input)
 
     // Find the low points
     let lowPoints: Point[] = []
-    for (let i = 1; i < input.length - 1; i++) {
-        for (let j = 1; j < input[i].length - 1; j++) {
-            let pointOfInterest: number = input[i][j]
+    for (let y = 1; y < paddedInput.length - 1; y++) {
+        for (let x = 1; x < paddedInput[y].length - 1; x++) {
+            let pointOfInterest: number = paddedInput[y][x]
             if (
-                pointOfInterest < input[i - 1][j] &&
-                pointOfInterest < input[i + 1][j] &&
-                pointOfInterest < input[i][j - 1] &&
-                pointOfInterest < input[i][j + 1]
+                pointOfInterest < paddedInput[y - 1][x] &&
+                pointOfInterest < paddedInput[y + 1][x] &&
+                pointOfInterest < paddedInput[y][x - 1] &&
+                pointOfInterest < paddedInput[y][x + 1]
             ) {
-                lowPoints.push({ i: i, j: j })
+                lowPoints.push({ x: x, y: y })
             }
         }
     }
 
     // Find the basins
-    let basins: Point[][] = lowPoints.map(lowPoint => explore(input, lowPoint, []))
+    let basins: Point[][] = lowPoints.map(lowPoint => explore(paddedInput, lowPoint, []))
 
     // Multiply together the sizes of the 3 largest basins
     return basins
@@ -39,24 +35,20 @@ export function largestBasins(input: number[][]): number {
         .reduce((previous, current) => previous * current, 1)
 }
 
-function yPadding(input: number[][]): number[] {
-    return input[0].map(() => 9)
-}
-
 function explore(input: number[][], pointOfInterest: Point, traveledPoints: Point[]): Point[] {
     traveledPoints.push(pointOfInterest)
-    let i: number = pointOfInterest.i
-    let j: number = pointOfInterest.j
+    let x: number = pointOfInterest.x
+    let y: number = pointOfInterest.y
     let adjacentPoints: Point[] = [
-        { i: i - 1, j: j },
-        { i: i + 1, j: j },
-        { i: i, j: j - 1 },
-        { i: i, j: j + 1 }
+        { x: x, y: y - 1 },
+        { x: x, y: y + 1 },
+        { x: x - 1, y: y },
+        { x: x + 1, y: y }
     ]
     adjacentPoints.forEach(adjacentPoint => {
-        let i: number = adjacentPoint.i
-        let j: number = adjacentPoint.j
-        if (!traveledPoints.some(p => p.i == i && p.j == j) && input[i][j] < 9) {
+        let x: number = adjacentPoint.x
+        let y: number = adjacentPoint.y
+        if (!traveledPoints.some(p => p.x == x && p.y == y) && input[y][x] < 9) {
             traveledPoints = explore(input, adjacentPoint, traveledPoints)
         }
     })
