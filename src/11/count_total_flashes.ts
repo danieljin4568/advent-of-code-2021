@@ -23,23 +23,23 @@ export function padGrid(grid: number[][]): number[][] {
     return grid
 }
 
-export function updateGrid(grid: number[][]): number[][] {
-    grid = incrementEnergyLevels(grid)
-    for (let y = 1; y < grid.length - 1; y++) {
-        for (let x = 1; x < grid[y].length - 1; x++) {
-            if (grid[y][x] > 9) {
-                flash(grid, { x: x, y: y })
+export function updateGrid(paddedGrid: number[][]): number[][] {
+    paddedGrid = incrementEnergyLevels(paddedGrid)
+    for (let y = 1; y < paddedGrid.length - 1; y++) {
+        for (let x = 1; x < paddedGrid[y].length - 1; x++) {
+            if (paddedGrid[y][x] > 9) {
+                flash(paddedGrid, { x: x, y: y })
             }
         }
     }
-    return grid
+    return paddedGrid
 }
 
-export function incrementEnergyLevels(grid: number[][]): number[][] {
-    return grid.map(row => row.map(energyLevel => energyLevel + 1))
+export function incrementEnergyLevels(paddedGrid: number[][]): number[][] {
+    return paddedGrid.map(row => row.map(energyLevel => energyLevel + 1))
 }
 
-export function flash(grid: number[][], point: Point): number[][] {
+export function flash(paddedGrid: number[][], point: Point): number[][] {
     let x: number = point.x
     let y: number = point.y
     let adjacentPoints: Point[] = [
@@ -52,25 +52,25 @@ export function flash(grid: number[][], point: Point): number[][] {
         { x: x - 1, y: y + 1 },
         { x: x - 1, y: y }
     ]
-    grid[y][x] = 0
+    paddedGrid[y][x] = 0
     adjacentPoints.forEach(adjacentPoint => {
         let x: number = adjacentPoint.x
         let y: number = adjacentPoint.y
-        if (grid[y][x] > 0) {
-            grid[y][x]++
+        if (paddedGrid[y][x] > 0) {
+            paddedGrid[y][x]++
         }
-        if (grid[y][x] > 9) {
-            grid = flash(grid, adjacentPoint)
+        if (paddedGrid[y][x] > 9) {
+            paddedGrid = flash(paddedGrid, adjacentPoint)
         }
     })
-    return grid
+    return paddedGrid
 }
 
-export function countFlashes(grid: number[][]): number {
+export function countFlashes(paddedGrid: number[][]): number {
     let flashes: number = 0
-    for (let y = 1; y < grid.length - 1; y++) {
-        for (let x = 1; x < grid[y].length - 1; x++) {
-            if (grid[y][x] == 0) {
+    for (let y = 1; y < paddedGrid.length - 1; y++) {
+        for (let x = 1; x < paddedGrid[y].length - 1; x++) {
+            if (paddedGrid[y][x] == 0) {
                 flashes++
             }
         }
