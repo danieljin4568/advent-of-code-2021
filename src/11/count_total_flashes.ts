@@ -4,7 +4,9 @@ interface Point {
 }
 
 export function countTotalFlashes(grid: number[][]): number {
-    let paddedGrid: number[][] = padGrid(grid)
+    let paddedGrid: number[][] = []
+    grid.forEach(row => paddedGrid.push(Object.assign([], row)))
+    paddedGrid = padGrid(paddedGrid)
     let flashes: number = 0
     for (let i = 0; i < 100; i++) {
         paddedGrid = updateGrid(paddedGrid)
