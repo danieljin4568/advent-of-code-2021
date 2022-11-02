@@ -36,7 +36,12 @@ export function updateGrid(paddedGrid: number[][]): number[][] {
 }
 
 export function incrementEnergyLevels(paddedGrid: number[][]): number[][] {
-    return paddedGrid.map(row => row.map(energyLevel => energyLevel + 1))
+    for (let y = 1; y < paddedGrid.length - 1; y++) {
+        for (let x = 1; x < paddedGrid[y].length - 1; x++) {
+            paddedGrid[y][x]++
+        }
+    }
+    return paddedGrid
 }
 
 export function flash(paddedGrid: number[][], point: Point): number[][] {
